@@ -4,10 +4,10 @@ export default function App() {
   return (
     <View style={styles.container}>
       <View>
-        <Text>My Dıck</Text>
+        <Text style={styles.dummyText}>My Dıck</Text>
       </View>
-      <Text>My balls!</Text>
-      <Button title="Tickle Me"/>
+      <Text style={styles.dummyText}>My balls!</Text>
+      <Button title="Tickle Me" />
     </View>
   );
 }
@@ -18,5 +18,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+  },
+  dummyText: {
+    margin: 16,
+    borderWidth: 2,
+    borderColor: "red",
+    padding: 16,
   },
 });
