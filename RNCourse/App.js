@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { StyleSheet, Text, View, Button, TextInput } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  TextInput,
+  ScrollView,
+  FlatList,
+} from "react-native";
 
 export default function App() {
   const [enteredGoal, setEnteredGoal] = useState("");
@@ -10,10 +18,11 @@ export default function App() {
   };
 
   const addGoalHandler = () => {
-    setGoals((currentGoals) => [...currentGoals, enteredGoal]);
+    setGoals((currentGoals) => [
+      ...currentGoals,
+      { text: enteredGoal, id: Math.random().toString() },
+    ]);
     setEnteredGoal("");
-    console.log("Your Goals: ", goals);
-    console.log("enteredGoal");
   };
 
   return (
@@ -23,15 +32,24 @@ export default function App() {
           style={styles.textInput}
           placeholder="Your Goal"
           onChangeText={goalInputHandler}
+          value={enteredGoal}
         />
         <Button title="Add Goal" onPress={addGoalHandler} />
       </View>
       <View style={styles.goalsContainer}>
-        {goals.length > 0 ? (
-          goals.map((goal, i) => <Text key={i}>{goal}</Text>)
-        ) : (
-          <Text>No Goals</Text>
-        )}
+        <FlatList
+          data={goals}
+          renderItem={(itemData) => {
+            return (
+              <View style={styles.goal}>
+                <Text>{itemData.item.text}</Text>
+              </View>
+            );
+          }}
+          keyExtractor={(item) => {
+            return item.id;
+          }}
+        />
       </View>
     </View>
   );
@@ -42,6 +60,8 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 50,
     paddingHorizontal: 40,
+    backgroundColor: "black",
+    color: "white",
   },
   inputContainer: {
     flex: 1,
@@ -51,6 +71,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
     borderBottomWidth: 1,
     borderBottomColor: "#cccccc",
+    color: "white",
   },
   textInput: {
     borderColor: "#cccccc",
@@ -58,8 +79,15 @@ const styles = StyleSheet.create({
     padding: 8,
     width: "80%",
     marginRight: 8,
+    color: "white",
   },
   goalsContainer: {
     flex: 5,
+  },
+  goal: {
+    backgroundColor: "pink",
+    padding: 10,
+    margin: 8,
+    borderRadius: 6,
   },
 });
